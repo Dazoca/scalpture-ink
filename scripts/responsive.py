@@ -37,6 +37,14 @@ CLASSES = [
      '<div class="si-bio-grid" style="display:grid; grid-template-columns:minmax(0,1fr) minmax(300px, 470px); align-items:end;'),
     ('<div style="display:grid; grid-template-columns:minmax(0,0.95fr) minmax(0,1.05fr); align-items:center;',
      '<div class="si-tier-grid" style="display:grid; grid-template-columns:minmax(0,0.95fr) minmax(0,1.05fr); align-items:center;'),
+    ('<div id="book" style="display:grid;',
+     '<div id="book" class="si-book" style="display:grid;'),
+    ('<form sc-camel-on-submit="{{ onSubmit }}" style=',
+     '<form class="si-book-form" sc-camel-on-submit="{{ onSubmit }}" style='),
+    ('<div data-reveal="" style="transition:opacity .8s ease-out, transform .8s ease-out; position:absolute; top:130px; left:34px;',
+     '<div class="si-eyebrow-ab" data-reveal="" style="transition:opacity .8s ease-out, transform .8s ease-out; position:absolute; top:130px; left:34px;'),
+    ('<div style="position:absolute; top:130px; right:34px; z-index:2; font-family:\'Courier New\', monospace; font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(242,240,238,0.5); writing-mode:vertical-rl;">',
+     '<div class="si-vertical-credit" style="position:absolute; top:130px; right:34px; z-index:2; font-family:\'Courier New\', monospace; font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(242,240,238,0.5); writing-mode:vertical-rl;">'),
     ('<div style="display:flex; gap:2px; height:min(66vh, 620px);">',
      '<div class="si-card-row" style="display:flex; gap:2px; height:min(66vh, 620px);">'),
     ('<div style="display:flex; flex-direction:column; gap:30px; padding:80px 34px 0; max-width:1100px;',
@@ -199,16 +207,116 @@ def main():
     grid-template-columns:minmax(0,1fr) !important;
   }
 
-  /* --- chapter 1 stats --- */
+  /* --- Chapter I: the artist -------------------------------------- */
+  /* Real layout change: the section stops being a full-height photo plate
+     with absolutely-positioned furniture and becomes a readable editorial
+     stack. Everything shares one 18px gutter. */
+  #chapter-1 {
+    min-height:auto !important;
+    padding:120px 18px 96px !important;
+    justify-content:flex-start !important;
+  }
+  #chapter-1 > div[style*="linear-gradient(180deg"] {
+    background:linear-gradient(180deg, rgba(5,5,5,0.78) 0%, rgba(5,5,5,0.45) 30%, rgba(5,5,5,0.9) 78%, #050505 100%) !important;
+  }
+
+  /* eyebrow: flow into the stack instead of floating over the headline */
+  .si-eyebrow-ab {
+    position:static !important;
+    margin:0 0 26px !important;
+    gap:8px !important;
+    align-items:flex-start !important;
+    max-width:100% !important;
+  }
+  .si-eyebrow-ab > span:last-child {
+    font-size:9.5px !important; letter-spacing:0.16em !important;
+    line-height:1.5 !important; white-space:normal !important;
+  }
+
+  /* vertical credit is unreadable on a phone — turn it into a byline */
+  .si-vertical-credit {
+    position:static !important;
+    writing-mode:horizontal-tb !important;
+    font-size:9px !important; letter-spacing:0.16em !important;
+    color:rgba(242,240,238,0.82) !important;
+    margin:0 0 14px !important;
+    padding-bottom:14px !important;
+    border-bottom:1px solid rgba(242,240,238,0.14) !important;
+    max-width:100% !important;
+  }
+
+  /* legibility scrim behind the text column */
+  #chapter-1 > div[style*="position:relative; z-index:2; display:flex; flex-direction:column"]::before {
+    content:''; position:absolute; inset:-40px -20px -40px -20px; z-index:-1;
+    background:linear-gradient(180deg, rgba(5,5,5,0.72) 0%, rgba(5,5,5,0.86) 40%, rgba(5,5,5,0.94) 100%);
+    pointer-events:none;
+  }
+
+  /* the section becomes a flex column we control */
+  #chapter-1 > div[style*="position:relative; z-index:2; display:flex; flex-direction:column"] {
+    gap:30px !important;
+  }
+  #chapter-1 h2[data-drift] {
+    font-size:clamp(38px, 12.5vw, 62px) !important;
+    line-height:0.98 !important;
+    letter-spacing:0.005em !important;
+    margin:0 !important;
+    max-width:100% !important;
+  }
+  #chapter-1 h2[data-drift] span[style*="padding-left:0.12em"] { padding-left:0 !important; }
+
+  /* stats: 3 cells that actually fit, numerals over captions */
   .si-stats {
-    display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)) !important;
-    gap:14px !important;
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:0 !important;
+    border-top:1px solid rgba(242,240,238,0.2) !important;
+    border-bottom:1px solid rgba(242,240,238,0.12) !important;
+    padding:20px 0 22px !important;
   }
+  .si-stats > div {
+    display:flex !important; flex-direction:column !important; gap:8px !important;
+    padding:0 10px 0 0 !important;
+    border-right:1px solid rgba(242,240,238,0.1) !important;
+    min-width:0 !important;
+  }
+  .si-stats > div:last-child { border-right:0 !important; padding-right:0 !important; }
+  .si-stats > div:nth-child(2) { padding-left:12px !important; }
+  .si-stats > div:nth-child(3) { padding-left:12px !important; }
+  .si-stats > div > div:first-child {
+    font-size:clamp(24px,7.5vw,34px) !important; line-height:1 !important;
+  }
+  .si-stats > div > div:last-child {
+    font-size:8px !important; letter-spacing:0.08em !important;
+    line-height:1.5 !important; text-transform:uppercase !important;
+    white-space:normal !important; overflow-wrap:break-word !important;
+    hyphens:auto !important; color:rgba(242,240,238,0.6) !important;
+  }
+  /* keep the designed line breaks but let them breathe */
+  .si-stats br { display:inline !important; }
+  .si-stats > div > div:last-child { padding-right:0 !important; }
+  .si-stats > div:last-child > div:last-child { padding-right:0 !important; }
+  #chapter-1 { padding-right:22px !important; }
+
+  /* bio: accent rule becomes a top rule so nothing hangs off the gutter */
+  .si-bio-grid { gap:26px !important; }
   .si-bio-col {
-    border-left:0 !important; border-top:1px solid rgba(192,131,71,0.55) !important;
-    padding-left:0 !important; padding-top:22px !important;
-    max-width:100% !important; overflow-wrap:break-word !important;
+    border-left:0 !important;
+    border-top:1px solid rgba(192,131,71,0.55) !important;
+    padding:20px 0 0 !important;
+    gap:20px !important;
   }
+  .si-bio-col > p {
+    font-size:14px !important; line-height:1.65 !important;
+    color:rgba(242,240,238,0.9) !important;
+  }
+  .si-bio-col > a {
+    align-self:flex-start !important;
+    font-size:10px !important; letter-spacing:0.18em !important;
+    padding-bottom:7px !important;
+  }
+
+  /* --- chapter 1 stats (legacy) --- */
   .si-bio-col > p, .si-bio-col > a { max-width:100% !important; }
   [style*="writing-mode:vertical-rl"] { display:none !important; }
 
@@ -253,9 +361,89 @@ def main():
   .si-faq-row { padding:30px 0 !important; }
   .si-faq-q { font-size:20px !important; }
 
-  /* --- contact --- */
-  a[href^="https://wa.me"] { padding:20px 22px !important; font-size:10.5px !important; }
-  a[href^="mailto"] { word-break:break-word; font-size:17px !important; }
+  /* --- Chapter V: contact & booking ------------------------------- */
+  #chapter-5 { padding-left:18px !important; padding-right:18px !important; }
+  #chapter-5 h2[data-drift] {
+    font-size:clamp(34px, 10.5vw, 52px) !important;
+    line-height:1.02 !important; margin-bottom:44px !important;
+  }
+  #chapter-5 h2[data-drift] span[style*="padding-left"] { padding-left:0 !important; }
+
+  /* the two-column book grid becomes a single readable column */
+  .si-book {
+    grid-template-columns:minmax(0,1fr) !important;
+    gap:34px !important; padding-top:28px !important;
+  }
+  .si-book > div { min-width:0 !important; max-width:100% !important; }
+  .si-book > div > p {
+    font-size:14px !important; line-height:1.65 !important; max-width:100% !important;
+  }
+
+  /* WhatsApp CTA: full-width, comfortable target */
+  .si-book a[href^="https://wa.me"] {
+    width:100% !important; max-width:100% !important;
+    padding:20px 22px !important; font-size:10.5px !important;
+    letter-spacing:0.16em !important; min-height:56px !important;
+  }
+  .si-book a[href^="https://wa.me"] span { font-size:16px !important; }
+
+  /* phone + email: never break mid-token */
+  .si-book a[href^="tel:"] { font-size:19px !important; letter-spacing:0.01em !important; }
+  .si-book a[href^="mailto:"] {
+    font-size:15px !important; letter-spacing:0 !important;
+    word-break:break-all !important; overflow-wrap:anywhere !important;
+    max-width:100% !important;
+  }
+
+  /* consultation pills: readable, equal, tappable */
+  .si-book-form > div:first-child > div:last-child {
+    display:flex !important; flex-wrap:wrap !important; gap:8px !important;
+  }
+  .si-book-form > div:first-child > div:last-child > button {
+    flex:1 1 calc(50% - 4px) !important; min-height:52px !important;
+    padding:14px 14px !important; font-size:9.5px !important;
+    letter-spacing:0.12em !important; line-height:1.35 !important;
+    white-space:normal !important; text-align:center !important;
+  }
+  .si-book-form > div:first-child { padding:20px 0 24px !important; gap:12px !important; }
+
+  /* form rows */
+  .si-book-form { border-top:0 !important; }
+  .si-book-form input, .si-book-form textarea {
+    font-size:16px !important; padding:18px 2px !important; width:100% !important;
+  }
+  .si-book-form textarea { min-height:88px !important; }
+  .si-book-form button[type="submit"] {
+    width:100% !important; max-width:100% !important;
+    margin-top:24px !important; padding:20px 24px !important;
+    font-size:10.5px !important; letter-spacing:0.18em !important;
+    min-height:58px !important; text-align:center !important;
+  }
+
+  /* footer: two up, everything inside the gutter */
+  #chapter-5 footer {
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:26px 18px !important;
+    margin-top:64px !important;
+    padding:30px 0 calc(120px + env(safe-area-inset-bottom)) !important;
+    border-top:1px solid rgba(242,240,238,0.14) !important;
+  }
+  #chapter-5 footer > div { min-width:0 !important; }
+  #chapter-5 footer a, #chapter-5 footer div {
+    max-width:100% !important; overflow-wrap:break-word !important;
+  }
+  /* footer headings carry wide tracking that orphans letters in a 2-col grid */
+  #chapter-5 footer > div > div:first-child {
+    font-size:9px !important; letter-spacing:0.1em !important;
+    white-space:nowrap !important;
+  }
+  #chapter-5 footer > div > div:nth-child(2),
+  #chapter-5 footer > div:last-child > div:last-child {
+    font-size:12px !important; line-height:1.55 !important;
+  }
+  #chapter-5 footer > div:last-child { grid-column:1 / -1 !important; }
+
+  /* --- contact (legacy) --- */
   input, textarea, button { font-size:16px !important; }
   form input, form textarea { padding:18px 2px !important; }
   .si-pay-note {
@@ -263,10 +451,7 @@ def main():
   }
 
   /* --- footer --- */
-  footer[style*="repeat(4"] {
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
-    gap:26px 18px !important; margin-top:70px !important; padding:34px 0 130px !important;
-  }
+
 
   /* --- chapter nav dock: becomes a compact segmented control --- */
   .si-nav {
